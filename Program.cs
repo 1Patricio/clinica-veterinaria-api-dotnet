@@ -7,7 +7,8 @@ builder.Services.AddSingleton<IPetService, PetService>();
 builder.Services.AddControllers();
 
 // Swagger para documentação
-//http://localhost:5183/swagger/index.html
+// comando -> dotnet add package Swashbuckle.AspNetCore
+// http://localhost:5183/swagger/index.html
 // Link para acessar Swagger Browser
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
