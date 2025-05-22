@@ -29,11 +29,12 @@ public class PetRepository : IPetRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
         var pet = await GetByIdAsync(id);
-        if (pet is null) return;
+        if (pet is null) return false;
         _context.Pet.Remove(pet);
         await _context.SaveChangesAsync();
+        return true;
     }
 }
