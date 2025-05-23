@@ -1,4 +1,5 @@
 using BibliotecaApi.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 public class PetRepository : IPetRepository
@@ -11,7 +12,7 @@ public class PetRepository : IPetRepository
 
     public async Task<IEnumerable<Pet>> GetAllAsync() =>
         await _context.Pet.ToListAsync();
-    
+
     public async Task<Pet?> GetByIdAsync(int id) =>
     await _context.Pet
         .FirstOrDefaultAsync(l => l.Id == id);
@@ -36,5 +37,20 @@ public class PetRepository : IPetRepository
         _context.Pet.Remove(pet);
         await _context.SaveChangesAsync();
         return true;
+    }
+
+    public async Task<Pet?> PutAsync(int id, Pet pet)
+    {
+        var update = await _context.Pet.FindAsync(id);
+        if (update == null)
+            return null;
+
+        update.Nome = pet.Nome;
+        update.Especie = pet.Especie;
+        update.Raca = pet.Raca;
+        update.TutorId = pet.TutorId;
+
+        await _context.SaveChangesAsync();
+        return update;
     }
 }

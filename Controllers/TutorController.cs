@@ -34,4 +34,10 @@ public class TutorController : ControllerBase
         var pet = await _ITutorRepo.DeleteAsync(id);
         return pet ? NoContent() : NotFound();
     }
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Put(int id, Tutor tutor)
+    {
+        var update = await _ITutorRepo.PutAsync(id, tutor);
+        return update is null ? NotFound() : Ok(update);
+    }
 }

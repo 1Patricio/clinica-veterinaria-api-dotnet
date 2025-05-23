@@ -35,4 +35,10 @@ public class PetController : ControllerBase
         var pet = await _petIRepo.DeleteAsync(id);
         return pet ? NoContent() : NotFound();
     }
+    [HttpPut("{id}")]
+    public async Task<ActionResult> Put(int id, Pet pet)
+    {
+        var update = await _petIRepo.PutAsync(id, pet);
+        return update is null ? NotFound() : Ok(update);
+    }
 }

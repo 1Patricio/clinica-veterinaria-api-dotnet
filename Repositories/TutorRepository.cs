@@ -36,5 +36,17 @@ public class TutorRepository : ITutorRepository
         await _context.SaveChangesAsync();
         return true;
     }
-    
+    public async Task<Tutor?> PutAsync(int id, Tutor tutor)
+    {
+        var update = await _context.Tutor.FindAsync(id);
+        if (update == null)
+            return null;
+
+        update.Nome = tutor.Nome;
+        update.Telefone = tutor.Telefone;
+        update.Email = tutor.Email;
+
+        await _context.SaveChangesAsync();
+        return update;
+    }
 }
