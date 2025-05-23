@@ -9,10 +9,10 @@ public class TutorRepository : ITutorRepository
     }
 
     public async Task<IEnumerable<Tutor>> GetAllAsync() =>
-        await _context.Tutor.Include(l => l.Nome).ToListAsync();
+        await _context.Tutor.ToListAsync();
 
     public async Task<Tutor?> GetByIdAsync(int id) =>
-    await _context.Tutor.Include(l => l.Nome)
+    await _context.Tutor
         .FirstOrDefaultAsync(l => l.Id == id);
 
     public async Task<Tutor> AddAsync(Tutor tutor)

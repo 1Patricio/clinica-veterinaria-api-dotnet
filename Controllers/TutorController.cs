@@ -28,7 +28,7 @@ public class TutorController : ControllerBase
         var novoTutor = await _ITutorRepo.AddAsync(tutor);
         return CreatedAtAction(nameof(GetByid), new { id = novoTutor.Id }, novoTutor);
     }
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
         var pet = await _ITutorRepo.DeleteAsync(id);

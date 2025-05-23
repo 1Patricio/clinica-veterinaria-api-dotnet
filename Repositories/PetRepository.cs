@@ -10,11 +10,11 @@ public class PetRepository : IPetRepository
     }
 
     public async Task<IEnumerable<Pet>> GetAllAsync() =>
-        await _context.Pet.Include(l => l.Nome).ToListAsync();
+        await _context.Pet.ToListAsync();
     
-        public async Task<Pet?> GetByIdAsync(int id) =>
-        await _context.Pet.Include(l => l.Nome)
-            .FirstOrDefaultAsync(l => l.Id == id);
+    public async Task<Pet?> GetByIdAsync(int id) =>
+    await _context.Pet
+        .FirstOrDefaultAsync(l => l.Id == id);
 
     public async Task<Pet> AddAsync(Pet pet)
     {

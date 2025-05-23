@@ -29,7 +29,7 @@ public class PetController : ControllerBase
         var novoPet = await _petIRepo.AddAsync(pet);
         return CreatedAtAction(nameof(GetByid), new { id = novoPet.Id }, novoPet);
     }
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
         var pet = await _petIRepo.DeleteAsync(id);
