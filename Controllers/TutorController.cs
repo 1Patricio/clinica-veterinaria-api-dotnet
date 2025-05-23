@@ -1,27 +1,37 @@
+using BibliotecaApi.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("api/[controller]")]
-public class TutorController : ControllerBase{
-    private readonly ITutorService _tutorService;
+public class TutorController : ControllerBase
+{
+    private readonly ITutorRepository _ITutorRepo;
 
-    public TutorController(ITutorService tutorService){
-        _tutorService = tutorService;
+    public TutorController(ITutorRepository ITutorRepo)
+    {
+        _ITutorRepo = ITutorRepo;
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Tutor>> Get() =>
-        Ok(_tutorService.GetAll());
-
+    public async Task<ActionResult<IEnumerable<Pet>>> Get() =>
+        Ok(await _ITutorRepo.GetAllAsync());
     [HttpGet("{id}")]
-    public ActionResult<Tutor>GetById(int id){
-        var tutor = _tutorService.GetById(id);
+    public async Task<ActionResult<Tutor>> GetByid(int id)
+    {
+        var tutor = await _ITutorRepo.GetByIdAsync(id);
         return tutor is null ? NotFound() : Ok(tutor);
     }
 
     [HttpPost]
-    public ActionResult<Tutor> Post(Tutor tutor){
-        var novoTutor = _tutorService.Add(tutor);
-        return CreatedAtAction(nameof(GetById), new {id = novoTutor.Id}, novoTutor);
+    public async Task<ActionResult<Tutor>> Post(Tutor tutor)
+    {
+        var novoTutor = await _ITutorRepo.AddAsync(tutor);
+        return CreatedAtAction(nameof(GetByid), new { id = novoTutor.Id }, novoTutor);
+    }
+    [HttpDelete]
+    public async Task<ActionResult> Delete(int id)
+    {
+        var pet = await _ITutorRepo.DeleteAsync(id);
+        return pet ? NoContent() : NotFound();
     }
 }

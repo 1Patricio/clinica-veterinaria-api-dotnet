@@ -10,10 +10,10 @@ public class TutorRepository : ITutorRepository
 
     public async Task<IEnumerable<Tutor>> GetAllAsync() =>
         await _context.Tutor.Include(l => l.Nome).ToListAsync();
-    
-        public async Task<Tutor?> GetByIdAsync(int id) =>
-        await _context.Tutor.Include(l => l.Nome)
-            .FirstOrDefaultAsync(l => l.Id == id);
+
+    public async Task<Tutor?> GetByIdAsync(int id) =>
+    await _context.Tutor.Include(l => l.Nome)
+        .FirstOrDefaultAsync(l => l.Id == id);
 
     public async Task<Tutor> AddAsync(Tutor tutor)
     {
@@ -28,11 +28,13 @@ public class TutorRepository : ITutorRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
         var tutor = await GetByIdAsync(id);
-        if (tutor is null) return;
+        if (tutor is null) return false;
         _context.Tutor.Remove(tutor);
         await _context.SaveChangesAsync();
+        return true;
     }
+    
 }
